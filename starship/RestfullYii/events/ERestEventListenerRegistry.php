@@ -305,9 +305,9 @@ class ERestEventListenerRegistry
 			if(!array_key_exists($subresource_name, $model->relations())) {
 				return false;
 			}
-			if($model->relations()[$subresource_name][0] != CActiveRecord::MANY_MANY) {
-				return false;
-			}
+//			if($model->relations()[$subresource_name][0] != CActiveRecord::MANY_MANY) {
+//				return false;
+//			}
 			return true;
 		});
 
