@@ -199,11 +199,15 @@ class ERestSubresourceHelper implements iERestResourceHelper
 	 */
 	public function putSubresourceHelper($model, $subresource_name, $subresource_id)
 	{
-		list($relation_table, $fks) = $this->getSubresourceMeta($model, $subresource_name);
+		try {
+			list($relation_table, $fks) = $this->getSubresourceMeta($model, $subresource_name);
 
-		if($this->saveSubresource($model, $subresource_id, $relation_table, $fks) > 0) {
-			return true;
-		} else {
+			if($this->saveSubresource($model, $subresource_id, $relation_table, $fks) > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch(\Exception $e) {
 			return false;
 		}
 	}

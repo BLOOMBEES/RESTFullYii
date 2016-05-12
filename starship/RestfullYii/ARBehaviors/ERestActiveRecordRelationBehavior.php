@@ -97,8 +97,7 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 			}
 
 			if(!$relation_model->save()) {
-				throw new CHttpException(500, 'Could not save Model: ' . get_class($relation_model) . ' : ' . CJSON::encode($relation_model->errors));
-				$relation_model->refresh();
+				return null;
 			}
 
 			if($this->getRelationType($model, $relation_name) == 'CBelongsToRelation') {
