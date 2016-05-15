@@ -200,8 +200,10 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 
 						$newRelatedRecords=$this->owner->getRelated($name, false);
 
-						if ($relation[0]==CActiveRecord::HAS_MANY && !is_array($newRelatedRecords))
-							throw new CDbException('A HAS_MANY relation needs to be an array of records or primary keys!');
+						if ($relation[0]==CActiveRecord::HAS_MANY && !is_array($newRelatedRecords)) {
+							$newRelatedRecords = [];
+							//throw new CDbException('A HAS_MANY relation needs to be an array of records or primary keys!');
+						}
 
 						// HAS_ONE is special case of HAS_MANY, so we have array with one or no element
 						if ($relation[0]==CActiveRecord::HAS_ONE) {
