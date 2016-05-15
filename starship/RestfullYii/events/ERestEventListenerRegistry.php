@@ -117,6 +117,7 @@ class ERestEventListenerRegistry
 		 * @return (Int) The request authentication type which may be 'USERPASS' (2), 'AJAX' (3) or 'CORS' (1)
 		 */
 		$onRest(ERestEvent::REQ_AUTH_TYPE, function($application_id) {
+          //Yii::log(isset($_SERVER['HTTP_X_'.$application_id.'_PASSWORD']) ? "exist" : "no-exist", CLogger::LEVEL_WARNING);
 			if(isset($_SERVER['HTTP_X_'.$application_id.'_CORS']) || (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS')) {
 				return ERestEventListenerRegistry::REQ_TYPE_CORS;
 			} else if(isset($_SERVER['HTTP_X_'.$application_id.'_USERNAME']) && isset($_SERVER['HTTP_X_'.$application_id.'_PASSWORD'])) {
@@ -239,7 +240,7 @@ class ERestEventListenerRegistry
 		 * @return (String) the username
 		 */ 
 		$onRest(ERestEvent::REQ_AUTH_USERNAME, function(){
-			return 'admin@restuser';
+			return 'bbmobile';
 		});
 
 		/**
@@ -251,7 +252,7 @@ class ERestEventListenerRegistry
 		 * @return (String) the password
 		 */ 
 		$onRest(ERestEvent::REQ_AUTH_PASSWORD, function(){
-			return 'admin@Access';
+			return '5yH3rNzWgt&$_/';
 		});
 
 		/**
@@ -305,9 +306,9 @@ class ERestEventListenerRegistry
 			if(!array_key_exists($subresource_name, $model->relations())) {
 				return false;
 			}
-//			if($model->relations()[$subresource_name][0] != CActiveRecord::MANY_MANY) {
-//				return false;
-//			}
+			if($model->relations()[$subresource_name][0] != CActiveRecord::MANY_MANY) {
+				return false;
+			}
 			return true;
 		});
 

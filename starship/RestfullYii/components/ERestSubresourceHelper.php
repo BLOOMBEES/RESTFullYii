@@ -67,9 +67,14 @@ class ERestSubresourceHelper implements iERestResourceHelper
 	 */ 
 	public function isSubresource($model, $subresource_name, $verb)
 	{	
+      //@Notice: Do not continue if subresource_name is null, wrapping in an if
+      if (isset($subresource_name)) {
+        
 		$emitRest = $this->getEmitter();
 
 		return $emitRest(ERestEvent::REQ_IS_SUBRESOURCE, [$model, $subresource_name, $verb]);
+        
+      } else return false;
 	}
 
 	/**

@@ -213,20 +213,23 @@
         {
             $subresource = strtolower($param1);
             $subresources = [];
-            foreach ($model->relations() as $relation => $config) {
-                $submodel = $config[1];
-                if (CActiveRecord::MANY_MANY !== $config[0] && strtolower($relation) === $subresource && class_exists($submodel)) {
-                    $submodel = $submodel::model();
-                    if (null != $pk) {
-                        $subresources = $submodel->findByPk($pk, $submodel->getTableAlias(true) . '.' . $config[2] . ' = :pk', ['pk' => $model->$config[2]]);
-                        if ($count) {
-                            $subresources = (null !== $subresources) ? 1 : 0;
-                        }
-                    } else {
-                        if($count) {
-                            $subresources = $submodel->countByAttributes([$config[2] => $model->$config[2]]);
+            $relations = $model->relations();
+            if(count($relations)) {
+                foreach ($relations as $relation => $config) {
+                    $submodel = $config[1];
+                    if (CActiveRecord::MANY_MANY !== $config[0] && strtolower($relation) === $subresource && class_exists($submodel)) {
+                        $submodel = $submodel::model();
+                        if (null != $pk) {
+                            $subresources = $submodel->findByPk($pk, $submodel->getTableAlias(true) . '.' . $config[2] . ' = :pk', ['pk' => $model->$config[2]]);
+                            if ($count) {
+                                $subresources = (null !== $subresources) ? 1 : 0;
+                            }
                         } else {
-                            $subresources = $submodel->findAllByAttributes([$config[2] => $model->$config[2]]);
+                            if($count) {
+                                $subresources = $submodel->countByAttributes([$config[2] => $model->$config[2]]);
+                            } else {
+                                $subresources = $submodel->findAllByAttributes([$config[2] => $model->$config[2]]);
+                            }
                         }
                     }
                 }

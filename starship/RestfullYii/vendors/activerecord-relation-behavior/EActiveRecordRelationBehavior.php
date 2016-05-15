@@ -223,7 +223,9 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 						if (CActiveRecord::model($relation[1])->tableSchema->getColumn($relation[2])->allowNull) {
 							CActiveRecord::model($relation[1])->updateAll(array($relation[2]=>null), $criteria);
 						} else {
-							CActiveRecord::model($relation[1])->deleteAll($criteria);
+                            //lrbloombees dont update.
+                            //CActiveRecord::model($relation[1])->deleteAll($criteria);
+							
 						}
 
 						/** @var CActiveRecord $record */
