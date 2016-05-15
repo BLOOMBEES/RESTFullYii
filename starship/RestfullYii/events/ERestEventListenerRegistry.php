@@ -303,10 +303,11 @@ class ERestEventListenerRegistry
 		 * @return (Bool) True if this is a subresouce request and false if not
 		 */ 
 		$onRest(ERestEvent::REQ_IS_SUBRESOURCE, function($model, $subresource_name, $http_verb) {
-			if(!array_key_exists($subresource_name, $model->relations())) {
-				return false;
-			}
-			if($model->relations()[$subresource_name][0] != CActiveRecord::MANY_MANY) {
+			$relations = array_keys($model->relations());
+			array_walk($relations, function(&$relation, $index) {
+				$relation = strtolower($relation);
+			});
+			if(!in_array(strtolower($subresource_name), $relations)) {
 				return false;
 			}
 			return true;
