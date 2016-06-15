@@ -235,8 +235,14 @@ class ERestJSONOutputWidget extends CWidget {
 				if (!$this->propertyIsVisible($property, $relation)) {
 						continue;
 				}
-				if(array_key_exists($property, $schema->columns) && $this->isBinary($schema->columns[$property]->dbType, $value)) {
-					$value =  bin2hex($value);
+				if(property_exists($schema, 'columns')) {
+					if(array_key_exists($property, $schema->columns) && $this->isBinary($schema->columns[$property]->dbType, $value)) {
+						$value =  bin2hex($value);
+					}
+				} elseif (property_exists($schema, 'properties')) {
+					if(array_key_exists($property, $schema->properties) && $this->isBinary($schema->properties[$property]->dbType, $value)) {
+						$value =  bin2hex($value);
+					}
 				}
 				$model_as_array[$property] = $value;
 			}
