@@ -35,7 +35,11 @@ class EActionRestPUT extends ERestBaseAction
 						return $this->controller->emitRest("req.put.$id.render", [$this->controller->emitRest(ERestEvent::REQ_DATA_READ), $param1, $param2]);
 						break;
 					case 'SUBRESOURCES':
-						throw new CHttpException('405', 'Method Not Allowed');
+						return $this->controller->emitRest(ERestEvent::REQ_PUT_SUBRESOURCES_RENDER, [
+							$this->handlePutSubresource($id, $param1, $param2),
+							$param1,
+							$this->controller->emitRest(ERestEvent::REQ_DATA_READ)
+						]);
 						break;
 					case 'SUBRESOURCE':
 						return $this->controller->emitRest(ERestEvent::REQ_PUT_SUBRESOURCE_RENDER, [
@@ -43,7 +47,7 @@ class EActionRestPUT extends ERestBaseAction
 							$param1,
 							$param2,
 							$visibleProperties,
-							$hiddenProperties,
+							$hiddenProperties
 						]);
 						break;
 					case 'RESOURCE':
@@ -88,13 +92,16 @@ class EActionRestPUT extends ERestBaseAction
 	 *
 	 * @return (Object) Returns the model containing the updated subresource
 	 */ 
-	public function handlePutSubresource($id, $subresource_name, $subresource_id)
+	public function handlePutSubresource($id, $subresource_name, $subresource_id = null)
 	{
 		$model = $this->controller->emitRest(
 			ERestEvent::MODEL_ATTACH_BEHAVIORS,
 			$this->getModel($id)
 		);
-		$this->controller->emitRest(ERestEvent::MODEL_SUBRESOURCE_SAVE, [$model, $subresource_name, $subresource_id]);
+		if(null !== $subresource_id) {
+			$this->controller->emitRest(ERestEvent::MODEL_SUBRESOURCE_SAVE, [$model, $subresource_name, $subresource_id]);
+		}
 		return $model;
 	}
+
 }

@@ -36,7 +36,11 @@ class EActionRestPOST extends ERestBaseAction
 						return $this->controller->emitRest("req.post.$id.render", [$this->controller->emitRest(ERestEvent::REQ_DATA_READ), $param1, $param2]);
 						break;
 					case 'SUBRESOURCES':
-						throw new CHttpException('405', 'Method Not Allowed');
+						return $this->controller->emitRest(ERestEvent::REQ_POST_SUBRESOURCE_RENDER, [
+							$this->handlePostSubresource($id, $param1, $param2),
+							$param1,
+							$this->controller->emitRest(ERestEvent::REQ_DATA_READ)
+						]);
 						break;
 					case 'SUBRESOURCE':
 						throw new CHttpException('405', 'Method Not Allowed');
@@ -57,16 +61,35 @@ class EActionRestPOST extends ERestBaseAction
 	 * Helper method for post actions
 	 *
 	 * @return (Object) Returns the model of the new resource
-	 */ 
+	 */
 	public function handlePost()
 	{
 		$model = $this->controller->emitRest(
 			ERestEvent::MODEL_ATTACH_BEHAVIORS,
 			$this->controller->emitRest(ERestEvent::MODEL_INSTANCE)
 		);
-		$data = $this->controller->emitRest(ERestEvent::REQ_DATA_READ);	
+		$data = $this->controller->emitRest(ERestEvent::REQ_DATA_READ);
 		$restricted_properties = $this->controller->emitRest(ERestEvent::MODEL_RESTRICTED_PROPERTIES);
 		$model = $this->controller->emitRest(ERestEvent::MODEL_APPLY_POST_DATA, [$model, $data, $restricted_properties]);
 		return $this->controller->emitRest(ERestEvent::MODEL_SAVE, [$model]);
+	}
+
+
+	/**
+	 * handlePostSubresource
+	 *
+	 * Helper method for post actions
+	 *
+	 * @return (Object) Returns the model of the new resource
+	 */
+	public function handlePostSubresource($id, $subresource_name, $subresource_id)
+	{
+		$model = $this->controller->emitRest(
+			ERestEvent::MODEL_ATTACH_BEHAVIORS,
+			$this->getModel($id)
+		);
+
+		return $model;
+
 	}
 }

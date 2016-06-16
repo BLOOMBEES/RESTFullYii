@@ -41,7 +41,9 @@ class ERestEvent
 	CONST REQ_DELETE_RESOURCE_RENDER														= 'req.delete.resource.render';
 	CONST REQ_GET_SUBRESOURCE_RENDER														= 'req.get.subresource.render';
 	CONST REQ_POST_SUBRESOURCE_RENDER														= 'req.post.subresource.render';
+	CONST REQ_POST_SUBRESOURCES_RENDER														= 'req.post.subresources.render';
 	CONST REQ_GET_SUBRESOURCES_RENDER														= 'req.get.subresources.render';
+	CONST REQ_PUT_SUBRESOURCES_RENDER														= 'req.put.subresources.render';
 	CONST REQ_PUT_SUBRESOURCE_RENDER														= 'req.put.subresource.render';
 	CONST REQ_DELETE_SUBRESOURCE_RENDER													= 'req.delete.subresource.render';
 	CONST REQ_EXCEPTION																					= 'req.exception';
