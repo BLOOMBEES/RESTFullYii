@@ -108,7 +108,7 @@ class ERestJSONOutputWidget extends CWidget {
 	public function outputRest()
 	{
 		echo CJSON::encode([
-			'success'	=> $this->success,
+			'success'	=> true,
 			'message'	=> $this->message,
 			'data'		=> [
 				"totalCount" => (Int) $this->totalCount,
