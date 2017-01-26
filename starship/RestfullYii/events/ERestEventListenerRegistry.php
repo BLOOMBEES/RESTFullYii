@@ -647,7 +647,7 @@ class ERestEventListenerRegistry
 		 * @return (Int) the number of results to return
 		 */
 		$onRest(ERestEvent::MODEL_LIMIT, function() {
-			return isset($_GET['limit'])? $_GET['limit']: 100;
+			return isset($_GET['limit'])? $_GET['limit']: -1;
 		});
 
 		/**
